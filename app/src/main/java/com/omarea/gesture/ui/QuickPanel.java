@@ -1,16 +1,21 @@
 package com.omarea.gesture.ui;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -213,7 +218,25 @@ public class QuickPanel {
                     if (GlobalState.enhancedMode && System.currentTimeMillis() - GlobalState.lastBackHomeTime < 4800) {
                         RemoteAPI.fixDelay();
                     }
-                    accessibilityService.startActivity(intent);
+
+                    ActivityOptions options = ActivityOptions.makeBasic();
+                    if(options != null) {
+                        WindowManager windowManager = (WindowManager) accessibilityService.getSystemService(Context.WINDOW_SERVICE);
+                        Display defaultDisplay = windowManager.getDefaultDisplay();
+
+                        DisplayMetrics dm = new DisplayMetrics();
+                        defaultDisplay.getMetrics(dm);
+
+                        Bundle b = options.setLaunchBounds(new Rect(100, 100, dm.widthPixels - 100, dm.heightPixels - 100)).toBundle();
+
+                        b.putInt("android.activity.windowingMode", 5);
+
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        accessibilityService.startActivity(intent, b);
+                    }
+                    else {
+                        accessibilityService.startActivity(intent);
+                    }
 
                     close();
                 }
@@ -227,8 +250,8 @@ public class QuickPanel {
                     if (GlobalState.enhancedMode && System.currentTimeMillis() - GlobalState.lastBackHomeTime < 4800) {
                         RemoteAPI.fixDelay();
                     }
-                    accessibilityService.startActivity(intent);
 
+                    accessibilityService.startActivity(intent);
                     close();
                     return false;
                 }
