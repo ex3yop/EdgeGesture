@@ -28,5 +28,5 @@ jobs:
     # 5
     - uses: actions/upload-artifact@master
       with:
-        name: app-release-unsigned.apk
-        path: app/build/outputs/apk/release/app-release-unsigned.apk
+        name: app-release.apk
+        path: app/build/outputs/apk/release/app-release.apk
