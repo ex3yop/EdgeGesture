@@ -13,7 +13,7 @@ android {
     defaultConfig {
         resConfigs "zh"
         applicationId "com.omarea.gesture"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 104
         versionName "1.6.4"
