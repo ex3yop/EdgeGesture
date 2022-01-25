@@ -128,6 +128,7 @@ public class AppSwitchActivity extends Activity {
 
     private void switchApp(String appPackageName, int enterAnimation, int exitAnimation) {
         ActivityOptions activityOptions = ActivityOptions.makeCustomAnimation(this.getApplicationContext(), enterAnimation, exitAnimation);
+        overridePendingTransition(enterAnimation, exitAnimation);
         new AppLauncher().startActivity(this, appPackageName, activityOptions);
         overridePendingTransition(enterAnimation, exitAnimation);
     }

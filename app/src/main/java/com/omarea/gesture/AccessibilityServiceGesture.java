@@ -35,6 +35,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AccessibilityServiceGesture extends AccessibilityService {
+    public static AccessibilityServiceGesture single_instance = null;
     public Recents recents = new Recents();
     private SideGestureBar floatVitualTouchBar = null;
     private BroadcastReceiver configChanged = null;
@@ -317,6 +318,7 @@ public class AccessibilityServiceGesture extends AccessibilityService {
 
     @Override
     public void onServiceConnected() {
+        single_instance = this;
         super.onServiceConnected();
 
         setServiceInfo();

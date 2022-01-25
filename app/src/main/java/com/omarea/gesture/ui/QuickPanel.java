@@ -35,6 +35,7 @@ import com.omarea.gesture.DialogFrequentlyAppEdit;
 import com.omarea.gesture.R;
 import com.omarea.gesture.SpfConfigEx;
 import com.omarea.gesture.remote.RemoteAPI;
+import com.omarea.gesture.util.AppLauncher;
 import com.omarea.gesture.util.GlobalState;
 import com.omarea.gesture.util.UITools;
 
@@ -213,31 +214,7 @@ public class QuickPanel {
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = AppSwitchActivity.getOpenAppIntent(accessibilityService);
-                    intent.putExtra("app", apps.get(position).packageName);
-                    if (GlobalState.enhancedMode && System.currentTimeMillis() - GlobalState.lastBackHomeTime < 4800) {
-                        RemoteAPI.fixDelay();
-                    }
-
-                    ActivityOptions options = ActivityOptions.makeBasic();
-                    if(options != null) {
-                        WindowManager windowManager = (WindowManager) accessibilityService.getSystemService(Context.WINDOW_SERVICE);
-                        Display defaultDisplay = windowManager.getDefaultDisplay();
-
-                        DisplayMetrics dm = new DisplayMetrics();
-                        defaultDisplay.getMetrics(dm);
-
-                        Bundle b = options.setLaunchBounds(new Rect(100, 100, dm.widthPixels - 100, dm.heightPixels - 100)).toBundle();
-
-                        b.putInt("android.activity.windowingMode", 5);
-
-                        //intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        accessibilityService.startActivity(intent, b);
-                    }
-                    else {
-                        accessibilityService.startActivity(intent);
-                    }
-
+                    AppLauncher.launch(apps.get(position).packageName, accessibilityService);
                     close();
                 }
             });
@@ -322,7 +299,7 @@ public class QuickPanel {
             View wrapView = view.findViewById(R.id.quick_apps_wrap);
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) wrapView.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            wrapView.setBackground(accessibilityService.getDrawable(R.drawable.quick_panel_bg_bottom));
+            wrapView.setBackground(accessibilityService.getDrawable(R.drawable.quick_panel_bg));
             wrapView.setLayoutParams(layoutParams);
             if (GlobalState.isLandscapf) {
                 appList.setNumColumns(10);
@@ -337,7 +314,7 @@ public class QuickPanel {
         // 右
         else if (touchRawX > 100) {
             View wrapView = view.findViewById(R.id.quick_apps_wrap);
-            wrapView.setBackground(accessibilityService.getDrawable(R.drawable.quick_panel_bg_right));
+            wrapView.setBackground(accessibilityService.getDrawable(R.drawable.quick_panel_bg));
             windowParams.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
             windowParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             windowParams.windowAnimations = R.style.RightQuickPanelAnimation;
@@ -346,7 +323,7 @@ public class QuickPanel {
         else {
             Log.d(">>>>", "Left touchRawX" + touchRawX);
             View wrapView = view.findViewById(R.id.quick_apps_wrap);
-            wrapView.setBackground(accessibilityService.getDrawable(R.drawable.quick_panel_bg_left));
+            wrapView.setBackground(accessibilityService.getDrawable(R.drawable.quick_panel_bg));
             windowParams.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
             windowParams.windowAnimations = R.style.LeftQuickPanelAnimation;
             windowParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;

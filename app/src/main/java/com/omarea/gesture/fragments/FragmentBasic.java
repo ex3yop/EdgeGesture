@@ -25,6 +25,7 @@ import com.omarea.gesture.Gesture;
 import com.omarea.gesture.R;
 import com.omarea.gesture.SpfConfig;
 import com.omarea.gesture.remote.RemoteAPI;
+import com.omarea.gesture.util.AppLauncher;
 import com.omarea.gesture.util.GlobalState;
 
 import java.util.List;

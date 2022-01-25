@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/quick_panel_bg_right"
+        android:layout_margin="@dimen/card_corner_radius"
+        android:background="@drawable/quick_panel_bg"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="12dp">

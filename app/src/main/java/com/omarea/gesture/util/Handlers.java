@@ -97,9 +97,7 @@ public class Handlers {
     // 由于Google限制，再按下Home键以后，后台应用如果想要打开Activity则需要等待5秒，参考 stopAppSwitches 相关逻辑
     // 这导致应用切换手势和打开应用的操作变得体验很差
     // 目前还没找到解决办法
-    public static void executeVirtualAction(
-            final AccessibilityServiceGesture accessibilityService,
-            final ActionModel action, float touchStartRawX, float touchStartRawY) {
+    public static void executeVirtualAction(final AccessibilityServiceGesture accessibilityService, final ActionModel action, float touchStartRawX, float touchStartRawY) {
 
         switch (action.actionCode) {
             case GLOBAL_ACTION_NONE: {
@@ -196,7 +194,7 @@ public class Handlers {
     }
 
     private static void openQuickPanel(final AccessibilityServiceGesture accessibilityService, float touchRawX, float touchRawY) {
-        new QuickPanel(accessibilityService).open(touchRawX, touchRawY);
+        //new QuickPanel(accessibilityService).open(touchRawX, touchRawY);
     }
 
     private static Intent getAppSwitchIntent(String appPackageName) {

@@ -154,6 +154,7 @@ public class TouchBarView extends View {
     }
 
     @SuppressLint("ClickableViewAccessibility")
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event != null) {
@@ -228,13 +229,21 @@ public class TouchBarView extends View {
         if (a - b > FLIP_DISTANCE) {
             if (gestureStartTime < 1) {
                 updateEdgeFeedbackIcon();
-
                 final long currentTime = System.currentTimeMillis();
                 gestureStartTime = currentTime;
+
                 postDelayed(new Runnable() {
                     @Override
                     public void run() {
                     if (isTouchDown && !isGestureCompleted && currentTime == gestureStartTime) {
+                        if (true) {
+                            new QuickPanel(accessibilityService).open(touchStartRawX, touchStartRawY);
+                            isGestureCompleted = true;
+                            isLongTimeGesture = true;
+                            clearEffect();
+                            return;
+                        }
+
                         isLongTimeGesture = true;
                         if (vibratorRun) {
                             Gesture.vibrate(Gesture.VibrateMode.VIBRATE_SLIDE_HOVER, getRootView());
@@ -268,7 +277,7 @@ public class TouchBarView extends View {
                 // float moveX = a - b;
                 if (moveY > FLIP_DISTANCE && touchMaxMoveX < (FLIP_DISTANCE / 2F)) {
                     isGestureCompleted = true;
-                    onInValidGesture();
+                    //onInValidGesture();
                 }
             }
         }
@@ -345,7 +354,7 @@ public class TouchBarView extends View {
             } else {
                 // 如果连续两次滑动到了一定距离又没有触发手势，认为是误触
                 if (touchMaxMoveX > flingValue) {
-                    onInValidGesture();
+                    //onInValidGesture();
                     return true;
                 }
             }
